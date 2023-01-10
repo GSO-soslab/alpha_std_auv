@@ -1,6 +1,6 @@
 # ALPHA Standard AUV.
 
-## Intro
+## Introduction
 This repository includes configuration for standard ALPHA AUV.
 - This repository is built based on our previous vehicle repositores, `alpha_sci_auv` and `alpha_auv`. The major change is that we have gone through the TF setup for the vehicle to make urdf and stonefish are consistent.
 - The readme content is an updated version of the previous readme [here](https://github.com/uri-ocean-robotics/alpha_sci_auv), created by Emir Cem Gezer.
@@ -9,6 +9,7 @@ This repository includes configuration for standard ALPHA AUV.
 - The localization configuration we have here runs a single `robot_localization` stack. We used `navsat_transform` node to anchor `odom` to a specific gps coordination. Then, the `robot_localzation` fuses the IMU, DVL, GPS odometry(output from the `navsat_transform` node) for localzation. When the AUV is resurfaced, sudden position jump is visible, similar to a real mission.
 - Currently, we only have simulation configured. Later, the physical system configuration will be included and the standard vehicle could be launch using another launch file.
 - A TF configuration setup guide is currently in preparation, and will be made availabel here soon.
+- This repository is actively maintained by the Smart Ocean Systems Laboratory, GSO, URI.
 
 
 - ROS version Noetic,
