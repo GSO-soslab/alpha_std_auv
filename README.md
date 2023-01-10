@@ -32,12 +32,10 @@ This repository includes configuration for standard ALPHA AUV.
 ### Install the Stonefish simulator
 - We use [Stonefish](https://stonefish.readthedocs.io/en/latest/install.html) Simulator. You can clone it from [here](https://github.com/uri-ocean-robotics/stonefish), a fork from the [original_repo](https://github.com/patrykcieslak/stonefish).
 
-### Installation instruction
 - Download the stonefish simulator **to another location outside your ROS workspace**
 ```bash
 git clone https://github.com/uri-ocean-robotics/stonefish
 ```
-
 
 - Install dependencies using `sudo apt install` (instruction from the [Stonefish](https://github.com/patrykcieslak/stonefish))
     * **OpenGL Mathematics library** (libglm-dev, version >= 0.9.9.0)
@@ -98,3 +96,75 @@ Install dependencies
 ```bash
 rosdep install --from-paths src --ignore-src --rosdistro ${ROS_DISTRO} -y
 ```
+
+### Compile the code
+go back to the ROS Workspace dir (e.g., catkin_ws), then do
+```bash
+catkin_make
+```
+
+## Quick test
+- Bring up the ALPHA Standard AUV with the Stonefish simualtor.
+
+```bash
+roslaunch alpha_std_bringup bringup_simulation.launch
+```
+
+- Enable the controller in a separated terminal
+```bash
+rosservice call /alpha_std/controller/enable
+```
+
+- Start a path following mission in local frame where your waypoint is defined in `alpha_std_config/mission/param/path_local.yaml`
+
+```bash
+rosservice call /alpha_std/helm/change_state "state: 'survey_local'"
+```
+
+- OR, try path following in a global frame where your waypoint is defined in latitude and longitude in `alpha_std_config/mission/param/gps_wpt.yaml`
+
+```bash
+rosservice call /alpha_std/helm/change_state "state: 'survey_global'"
+```
+
+- You can put AUV in idle anytime by changing the state of the helm
+
+```bash
+rosservice call /alpha_std/helm/change_state "state: 'start'"
+```
+
+- Note: Make sure you selected the correct topics for the Markers in the RViz window.
+
+
+## Citation
+
+The ALPHA paper:
+
+```
+@inproceedings{
+    ALPHA_PAPER,
+    title = {Acrobatic Low-cost Portable Hybrid AUV (ALPHA): System Design and Preliminary Results},
+    author={Zhou, Mingxi and Gezer, Emir Cem and McConnell, William and Yuan, Chengzhi},
+    booktitle={OCEANS 2022: Hampton Roads},
+    year={2022},
+    organization={IEEE}
+}
+```
+
+The MVP paper:
+
+```
+@inproceedings{
+    ALPHA_PAPER,
+    title = {Working toward the development of a generic marine vehicle framework: ROS-MVP},
+    author={Gezer, Emir Cem and Zhou, Mingxi and Zhao, LIN and McConnell, William},
+    booktitle={OCEANS 2022: Hampton Roads},
+    year={2022},
+    organization={IEEE}
+}
+```
+
+
+
+## Funding
+This work is supported by the [National Science Foundation](https://www.nsf.gov/) award [#2154901](https://www.nsf.gov/awardsearch/showAward?AWD_ID=2154901&HistoricalAwards=false) and award [#2221676](https://www.nsf.gov/awardsearch/showAward?AWD_ID=2221676&HistoricalAwards=false)
