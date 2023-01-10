@@ -1,8 +1,9 @@
 # ALPHA Standard AUV.
 
-
+## Intro
 This repository includes configuration for standard ALPHA AUV.
 - This repository is built based on our previous vehicle repositores, `alpha_sci_auv` and `alpha_auv`. The major change is that we have gone through the TF setup for the vehicle to make urdf and stonefish are consistent.
+- The readme content is an updated version of the previous readme [here](https://github.com/uri-ocean-robotics/alpha_sci_auv), created by Emir Cem Gezer.
 - The standard ALPHA AUV uses AHRS/IMU, DVL, GPS to localize itself.
 - ALPHA uses our `mvp_control` and `mvp_mission` for low-level pose control and vehicle guidance.
 - The localization configuration we have here runs a single `robot_localization` stack. We used `navsat_transform` node to anchor `odom` to a specific gps coordination. Then, the `robot_localzation` fuses the IMU, DVL, GPS odometry(output from the `navsat_transform` node) for localzation. When the AUV is resurfaced, sudden position jump is visible, similar to a real mission.
@@ -26,3 +27,74 @@ This repository includes configuration for standard ALPHA AUV.
 - `alpha_std_stonefish`: ALPHA scenario files for the `Stonefish` simulator.
 
 
+## Instllation
+
+### Install the Stonefish simulator
+- We use [Stonefish](https://stonefish.readthedocs.io/en/latest/install.html) Simulator. You can clone it from [here](https://github.com/uri-ocean-robotics/stonefish), a fork from the [original_repo](https://github.com/patrykcieslak/stonefish).
+
+### Installation instruction
+- Download the stonefish simulator **to another location outside your ROS workspace**
+```bash
+git clone https://github.com/uri-ocean-robotics/stonefish
+```
+
+
+- Install dependencies using `sudo apt install` (instruction from the [Stonefish](https://github.com/patrykcieslak/stonefish))
+    * **OpenGL Mathematics library** (libglm-dev, version >= 0.9.9.0)
+    * **SDL2 library** (libsdl2-dev, may need the following fix!)
+        1. Install SDL2 library from the repository.
+        2. `cd /usr/lib/x86_64-linux-gnu/cmake/SDL2/`
+        3. `sudo vim sdl2-config.cmake`
+        4. Remove space after "-lSDL2".
+        5. Save file.
+    * **Freetype library** (libfreetype6-dev)
+
+- Build and install the stonefish
+    ```bash
+    cd stonefish
+    mkdir build
+    cd build
+    cmake -DCMAKE_BUILD_TYPE=Release ..
+    make -j$(nproc)
+    sudo make install
+    ```
+
+
+### Setup ALPHA Standard Repo
+- Clone `alpha_std_auv` repo
+    ```bash
+    git clone https://github.com/GSO-soslab/alpha_std_auv
+    cd alpha_auv
+    git submodule update --init --recursive
+    ```
+
+- Install pip and setup python3 as default
+    ```bash
+    sudo apt install python3-pip
+    ```
+
+- Clone [alpha_core] repo which include other hardware related source code, sensor drivers, and other utilities.
+
+    ```bash
+    git clone --single-branch --branch noetic-devel https://github.com/uri-ocean-robotics/alpha_core.git
+    ```
+
+### Install ROS-MVP 
+
+Currently MVP packages should be build from the source.
+Target platform must be Ubuntu 20.04 because of the dependencies.
+
+Pull repository and other dependencies
+```bash
+git clone --single-branch --branch noetic-devel https://github.com/uri-ocean-robotics/mvp_msgs
+git clone --single-branch --branch noetic-devel https://github.com/uri-ocean-robotics/mvp_control
+git clone --single-branch --branch noetic-devel https://github.com/uri-ocean-robotics/mvp_mission
+git clone --single-branch --branch noetic-devel https://github.com/uri-ocean-robotics/stonefish_mvp
+```
+
+### Install Dependencies
+
+Install dependencies
+```bash
+rosdep install --from-paths src --ignore-src --rosdistro ${ROS_DISTRO} -y
+```
