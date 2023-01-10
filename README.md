@@ -15,11 +15,14 @@ This repository includes configuration for standard ALPHA AUV.
 
 
 ## Directory structure
-`alpha_std_auv`
-Meta package for the standard ALPHA AUV.
+- `alpha_std_auv`: Meta package for the standard ALPHA AUV.
 
-`alpha_std_bringup`
-Launch files to bring the vehicle/simulation up runnning
+- `alpha_std_bringup`: Launch files to bring the vehicle/simulation up runnning
 
-`alpha_std_config`
-Configuration files for helm, controller, and devices. `mvp_mission` state machine is configured in `/mission/config/helm.yaml`. Parameters for different behaviors program for the helm is located in `/mission/param`. `mvp_control` configuration is under `/config/control.yaml`; 
+- `alpha_std_config`: Configuration files for helm, controller, and devices. `mvp_mission` state machine is configured in `/mission/config/helm.yaml`. Parameters for different behaviors program for the helm is located in `/mission/param`. `mvp_control` configuration is under `/config/control.yaml`.
+
+- `alpha_std_description`: URDF files, rviz configuration, and vehicle mesh
+
+- `alpha_std_stonefish`: ALPHA scenario files for the `Stonefish` simulator.
+
+
