@@ -22,4 +22,16 @@ Without following the instruction, you may encounter weird performanace when sim
 - **pressure_sensor**: it has the same orientation as the `cg_link` but offseted based on the location of the pressure sensor. When the vehicle is going down, we expect a positive pressure/depth reading.
 
 ### ***Sensor setup in the Stonefish*** ###
+- Stonefish uses NED convention. Therefore, in the UI you will see the earth frame with x(red) pointed north, y(green) pointed east,a nd z(blue) pointed downward. All the following content only make suggestsion on how to make the scnario files used in the Stonefish
 
+- **baselink**: when you  toggle-on the "frames" in the Stonefish UI, it shows a "base_link" this coordinate is actually not the base-link. Instead, it is the center of the graveity of the compond vehicle you imported. **TO MAKE YOUR LIFE EASIER**, we suggest to create a link in the another link called “Base” to be your reference point. See the code below
+```
+<!-- the actual base frame  -->
+           <link name="Base" type="box" physics="submerged">
+               <dimensions xyz="0.01 0.02 0.01"/>
+               <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+               <material name="Neutral"/>
+               <look name="Green"/>
+           </link>
+
+```
