@@ -46,7 +46,7 @@ For your vehicle, we still define it in the `Vehicle` frame. Therefore, we need 
            </joint>
 ```
 
-- **imu_sf**: is a frame attached to the imu in the stonefish. On the ALPHA standard vehicle, the imu's z-axis is pointed upward, x-axis is pointed forward, and y-axis is pointed port. Therefore, in the Stonefish, we have `imu_sf` rotated 180deg around x from the `Base` as shown below. We named the link with suffix becasuse Stonefish's IMU's orientation is measured in NED frame. Before, we use it for localization 
+- **imu_sf**: is a frame attached to the imu in the stonefish. On the ALPHA standard vehicle, the imu's z-axis is pointed upward, x-axis is pointed forward, and y-axis is pointed port. Therefore, in the Stonefish, we have `imu_sf` rotated 180deg around x from the `Base` as shown below.readings from the imu.
 ```
 <sensor name="imu_sf" type="imu" rate="20.0">
                <link name="Base"/>
@@ -55,3 +55,56 @@ For your vehicle, we still define it in the `Vehicle` frame. Therefore, we need 
                <ros_publisher topic="/${robot_name}/imu/stonefish/data"/>
             </sensor>
 ```
+
+ We named the link with suffix becasuse Stonefish's IMU's orientation is measured in NED frame. Before, we use it for localization, we need use the [imu_transformer node](https://github.com/uri-ocean-robotics/alpha_core/blob/noetic-devel/alpha_localization/src/imu_ned_enu.cpp) to adjust the orientation. The code below showing how to use the node in the launch file.
+ ```
+ <node ns="$(arg robot_name)" name="imu_ned_to_enu" pkg="alpha_localization" type="imu_ned_to_enu" output="screen">
+            <remap from="imu_in/data" to="imu/stonefish/data"/>
+            <remap from="imu_out/data" to="imu/data"/>
+            <param name="frame_id" value="$(arg robot_name)/imu"/>
+        </node>
+ ```
+- **dvl_sf**: as mentioned earlier, the DVL frame is slightly different than the real system. In the Stonefish, you need to point the z-axis of the DVL upward to get valid bottom lock from the seabed. Therefore, we rolled the DVl axis 180 deg as shown below. And we have suffix to indicate the frame is from the stonefish.
+```
+ <sensor name="dvl_sf" type="dvl" rate="5.0">
+                <link name="Base"/>
+                <origin rpy="3.1415926 0.0 0.0" xyz="-0.65 0.0 0.1"/>
+                <specs beam_angle="30.0"/>
+                <range velocity="9.0 9.0 9.0" altitude_min="0.2" altitude_max="200.0"/>
+                <noise velocity="0.015" altitude="0.001"/>
+                <ros_publisher topic="/${robot_name}/dvl/twist" altitude_topic="/${robot_name}/dvl/altitude"/>
+            </sensor>
+```
+In the URDF file, we need to redefine an actual dvl frame. So on the real vehicle, the data will be published in the dvl frame and we don't need to change our TF tree. You can do it using the following example where we rotated two frames with 180 degrees in roll.
+```
+    <link name="dvl"/>
+    <joint name="dvl_joint" type="fixed">
+        <origin xyz="-0.22 0.0 -0.08" rpy="3.1415926 0.0 0.0"/>
+        <parent link="base_link"/>
+        <child link="dvl"/>
+    </joint>
+     <link name="dvl_sf"/>
+    <joint name="dvl_sf_joint" type="fixed">
+        <origin xyz="-0.22 0.0 -0.08" rpy="0.0 0.0 0.0"/>
+        <parent link="base_link"/>
+        <child link="dvl_sf"/>
+```
+
+- **Thruster frames**: for the thrusters, we need to follow the followin rules to make MVP_control happy. First, your thruster accepts commands between -1 to 1. Second, the positive command will create a positive thrust in the thruster's x axis. Then, you can define the TF between your thruster and the vehicle based on the `Base` frame. The following example shows how we defined the vertical thruster near the bow. The thruster frame is pitched -90 degree from our `Base`. Thus, its x-axis is pointed downward.
+```
+ <actuator name="ThrusterHeaveBow" type="thruster">
+                <link name="Base"/>
+                <origin rpy="0.0 -1.571 0.0" xyz="-0.2857 0.0 0.0"/>
+                <specs thrust_coeff="0.4315" thrust_coeff_backward="0.3404" torque_coeff="0.01" max_rpm="3000.0"/>
+                <propeller diameter="0.08" right="true">
+                    <mesh filename="prop.obj" scale="1.0"/>
+                    <material name="Neutral"/>
+                    <look name="white"/>
+                </propeller>
+                <ros_subscriber topic="/${robot_name}/control/thruster/heave_bow"/>
+            </actuator>
+```
+
+- ***Summary***
+A full example of our Stonefish scenario file setup can be found in this repository [here](https://github.com/GSO-soslab/alpha_std_auv/blob/noetic-devel/alpha_std_stonefish/description/alpha_std.scn.xacro)
+And the URDF description is [here](https://github.com/GSO-soslab/alpha_std_auv/blob/noetic-devel/alpha_std_description/urdf/base.urdf.xacro)
