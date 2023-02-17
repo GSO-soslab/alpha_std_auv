@@ -3,7 +3,9 @@
 ## Introduction
 This document describes how each sensor/actuator on the ALPHA is configured on the actual vehicle and in the stonefish simulator. Herein, we use the standard ALPHA vehicle (`alpha_std_auv`) as an example. The standard vehicle has an IMU, DVL, and four thrusters (two vertical thrusters, one horizont thruster, and one main thruster in the back).
 Without following the instruction, you may encounter weird performanace when simulating the ALPHA, especailly when using the MVP control, MVP mission and robot localization with GPS integrated.
-
+**Caution**
+- DVL configuration in the Stonefish maybe changed to match the physical system.
+- IMU transform node is not updated in the actual repository. Please check the pull request to see the changes. We will try to merge the changes asap.
 
 ## Common Frames.
 ### ***World related frames***
