@@ -1,4 +1,4 @@
-# ALPHA Standard AUV
+# ALPHA Standard AUV Stonefish Setup Guide
 
 ## Introduction
 This document describes how each sensor/actuator on the ALPHA is configured on the actual vehicle and in the stonefish simulator. Herein, we use the standard ALPHA vehicle (`alpha_std_auv`) as an example. The standard vehicle has an IMU, DVL, and four thrusters (two vertical thrusters, one horizont thruster, and one main thruster in the back).
