@@ -15,10 +15,10 @@ acceptance_radius: 3.0
 update_topic: update_waypoints
 append_topic: append_waypoints
 surge_velocity: 0.80
-lookahead_distance: 15.0
+lookahead_distance: 10.0
 state_done: start
 state_fail: kill
 # cross-track error rate compenstation
 beta_gain: 1.0 
 #integral term.
-sigma: 0.2
+sigma: 0.5
