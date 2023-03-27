@@ -17,13 +17,13 @@
     <xacro:alpha_std robot_name="$(arg robot_name)" xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
 
     <environment>
-        <ned latitude="41" longitude="71"/>
+        <ned latitude="41" longitude="-71"/>
         <ocean>
             <water density="1031.0" jerlov="0.2"/>
             <waves height="0.0"/>
             <particles enabled="true"/>
             <current type="uniform">
-                <velocity xyz="0.1 0.0 0.0"/>
+                <velocity xyz="0.0 0.0 0.0"/>
             </current>
             <!-- <current type="jet">
                 <center xyz="0.0 0.0 3.0"/>
