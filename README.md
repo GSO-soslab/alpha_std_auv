@@ -63,7 +63,7 @@ git clone https://github.com/uri-ocean-robotics/stonefish
 - Clone `alpha_std_auv` repo
     ```bash
     git clone https://github.com/GSO-soslab/alpha_std_auv
-    cd alpha_auv
+    cd alpha_std_auv
     git submodule update --init --recursive
     ```
 
