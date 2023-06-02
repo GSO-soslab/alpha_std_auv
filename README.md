@@ -97,6 +97,11 @@ Install dependencies
 ```bash
 rosdep install --from-paths src --ignore-src --rosdistro ${ROS_DISTRO} -y
 ```
+Install dependencies for `alpha_core`
+```
+cd alpha_core
+git submodule update --init --recursive
+```
 
 ### Compile the code
 go back to the ROS Workspace dir (e.g., catkin_ws), then do
