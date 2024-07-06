@@ -66,16 +66,11 @@ git clone https://github.com/uri-ocean-robotics/stonefish
     cd alpha_std_auv
     git submodule update --init --recursive
     ```
-
+- You can run the similar commands for other AUVs.
+- 
 - Install pip and setup python3 as default
     ```bash
     sudo apt install python3-pip
-    ```
-
-- Clone [alpha_core] repo which include other hardware related source code, sensor drivers, and other utilities.
-
-    ```bash
-    git clone --single-branch --branch noetic-devel https://github.com/uri-ocean-robotics/alpha_core.git
     ```
 
 ### Install ROS-MVP 
@@ -87,9 +82,18 @@ Pull repository and other dependencies
 git clone --single-branch --branch noetic-devel https://github.com/uri-ocean-robotics/mvp_msgs
 git clone --single-branch --branch noetic-devel https://github.com/uri-ocean-robotics/mvp_control
 git clone --single-branch --branch noetic-devel https://github.com/uri-ocean-robotics/mvp_mission
+git clone --single-branch --branch noetic-devel https://github.com/GSO-soslab/mvp_utilities.git
 git clone --single-branch --branch noetic-devel https://github.com/uri-ocean-robotics/stonefish_mvp
 ```
+
 **stonefish_mvp** is a wrapper modified from [stonefish_ros](https://github.com/patrykcieslak/stonefish_ros) for ROS interface with ROS-MVP.
+
+### Hardware drivers
+- Clone [mvp_core] repo which include other hardware related source code, sensor drivers, and other utilities.
+
+    ```bash
+    git clone --single-branch --branch noetic-devel https://github.com/GSO-soslab/mvp_core.git
+    ```
 
 ### Install Dependencies
 
